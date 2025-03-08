@@ -1,36 +1,29 @@
-import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+"use client"
+import { useNavigate, useLocation } from "react-router-dom"
 
 function Footer() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const handleNavigation = (path) => {
     if (path === "#contact" || path === "#aboutUs") {
       if (location.pathname !== "/") {
-        navigate("/", { state: { scrollTo: path } });
+        navigate("/", { state: { scrollTo: path } })
       } else {
-        const element = document.querySelector(path);
+        const element = document.querySelector(path)
         if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
+          element.scrollIntoView({ behavior: "smooth" })
         }
       }
     } else {
-      navigate(path);
+      navigate(path)
     }
-  };
-
-  const handleReserveTableClick = (e) => {
-    e.preventDefault();
-    navigate("/restaurants");
-    e.target.blur(); // Removes focus from the button
-};
-
+  }
 
   const handleHomeClick = (e) => {
-    e.preventDefault();
-    window.location.href = "/"; // ✅ Refresh page and navigate to home
-  };
+    e.preventDefault()
+    window.location.href = "/" // Refresh page and navigate to home
+  }
 
   return (
     <footer className="footer">
@@ -39,20 +32,39 @@ function Footer() {
           <h3>Quick Links</h3>
           <ul>
             <li>
-              <a href="/" onClick={handleHomeClick}>Home</a>
+              <a href="/" onClick={handleHomeClick}>
+                Home
+              </a>
             </li>
-            <li><a href="/restaurants">Restaurants</a></li>
             <li>
-              <button onClick={(handleReserveTableClick) => navigate("/restaurants")}>
+              <a
+                href="/restaurants"
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate("/restaurants")
+                }}
+              >
+                Restaurants
+              </a>
+            </li>
+            <li>
+              <a
+                className="nav-link"
+                href="/restaurants"
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate("/restaurants")
+                }}
+              >
                 Reserve Table
-              </button>
+              </a>
             </li>
             <li>
               <a
                 href="#aboutUs"
                 onClick={(e) => {
-                  e.preventDefault();
-                  handleNavigation("#aboutUs");
+                  e.preventDefault()
+                  handleNavigation("#aboutUs")
                 }}
               >
                 About Us
@@ -62,8 +74,8 @@ function Footer() {
               <a
                 href="#contact"
                 onClick={(e) => {
-                  e.preventDefault();
-                  handleNavigation("#contact");
+                  e.preventDefault()
+                  handleNavigation("#contact")
                 }}
               >
                 Contact
@@ -80,9 +92,15 @@ function Footer() {
         <div className="footer-section">
           <h3>Follow Us</h3>
           <div className="social-icons">
-            <a href="#" className="social-icon">FB</a>
-            <a href="#" className="social-icon">TW</a>
-            <a href="#" className="social-icon">IG</a>
+            <a href="#" className="social-icon">
+              FB
+            </a>
+            <a href="#" className="social-icon">
+              TW
+            </a>
+            <a href="#" className="social-icon">
+              IG
+            </a>
           </div>
         </div>
       </div>
@@ -90,7 +108,8 @@ function Footer() {
         <p>&copy; 2024 Restaurant Finder. All rights reserved.</p>
       </div>
     </footer>
-  );
+  )
 }
 
-export default Footer;
+export default Footer
+

@@ -241,8 +241,8 @@ body {
   
   /* Footer */
   .footer {
-    background-color: #333;
-    color: #fff;
+    background-color: #f9f9f9;
+    color: #000000;
     padding: 40px 0 20px;
   }
   
@@ -273,7 +273,7 @@ body {
   }
   
   .footer-section a {
-    color: #fff;
+    color: #000000;
     text-decoration: none;
   }
   
