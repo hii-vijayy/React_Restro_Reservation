@@ -85,9 +85,9 @@ function Footer() {
         </div>
         <div className="footer-section">
           <h3>Contact Info</h3>
-          <p>Email: info@restaurantfinder.com</p>
+          <p>Email: testprojectmail2024@gmail.com</p>
           <p>Phone: (123) 456-7890</p>
-          <p>Address: 123 Foodie Street, Gourmet City, 12345</p>
+          <p>Address: 123 Foodie Street, Example City, 12345</p>
         </div>
         <div className="footer-section">
           <h3>Follow Us</h3>

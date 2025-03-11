@@ -135,58 +135,166 @@ body {
     height: auto;
   }
   
-  /* Contact Section */
+/* Contact Section */
+.contact-section {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 40px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Title */
+.contact-section h2 {
+  color: #333;
+  margin-bottom: 25px;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* Form */
+.contact-section form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Form Group */
+.contact-section .form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Labels */
+.contact-section label {
+  margin-bottom: 5px;
+  color: #555;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Input Fields */
+.contact-section input,
+.contact-section textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: #fff;
+  transition: border-color 0.3s ease-in-out;
+}
+
+/* Focus Effect */
+.contact-section input:focus,
+.contact-section textarea:focus {
+  border-color: #ff5a5f;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 90, 95, 0.5);
+}
+
+/* Textarea */
+.contact-section textarea {
+  height: 150px;
+  resize: none;
+}
+
+/* Submit Button */
+.contact-section .submit-btn {
+  background-color: #ff5a5f;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.contact-section .submit-btn:hover {
+  background-color: #ff3b42;
+}
+
+/* Disabled Button */
+.submit-btn:disabled {
+  background-color: #ff8083;
+  cursor: not-allowed;
+}
+
+/* Loader Animation */
+.submit-btn .loader {
+  width: 18px;
+  height: 18px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Success & Error Messages */
+.message {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 10px;
+  opacity: 1;
+  animation: fadeOut 5s forwards;
+}
+
+/* Success Message */
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  animation-duration: 3s; /* Fades out in 3 sec */
+}
+
+/* Error Message */
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Fade Out Animation */
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; display: none; }
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .contact-section {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 500px;
   }
-  
-  .contact-section h2 {
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .contact-section .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .contact-section label {
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
-  }
-  
+
   .contact-section input,
   .contact-section textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
+      font-size: 14px;
   }
-  
-  .contact-section textarea {
-    height: 150px;
-  }
-  
-  .contact-section .submit-btn {
-    background-color: #ff5a5f;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.2s;
-  }
-  
-  .contact-section .submit-btn:hover {
-    background-color: #ff3b42;
-  }
+}
+
   
   /* About Section */
   .about-box {
@@ -457,69 +565,96 @@ body {
   }
   
   /* Reservation Form */
+.reservation-form-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-group textarea {
+  height: 120px;
+  resize: none;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #ff5a5f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+  background-color: #ff3b42;
+}
+
+/* Success & Error Messages */
+.success-message, .error-message {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .reservation-form-container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 90%;
   }
-  
-  .reservation-form-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 14px;
   }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .submit-btn {
-    width: 100%;
-    padding: 10px;
-    background-color: #ff5a5f;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .submit-btn:hover {
-    background-color: #ff3b42;
-  }
-  
-  .error {
-    color: #ff3b42;
-    text-align: center;
-    margin-top: 10px;
-  }
-  
-  .loading,
-  .no-results {
-    text-align: center;
-    padding: 20px;
-    font-size: 18px;
-    color: #666;
-  }
+}
+
   
   /* Restaurant List Container */
   .restaurant-list-container {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RestaurantCard from './RestrauntCard';
+import { useLocation } from 'react-router-dom';
 import '../App.css';
 
 function RestaurantList({ latitude, longitude }) {
@@ -62,6 +63,7 @@ function RestaurantList({ latitude, longitude }) {
                 {restaurants.map((restaurant) => (
                     <RestaurantCard 
                         key={restaurant.id}
+                        id={restaurant.id}
                         name={restaurant.name}
                         address={restaurant.address}
                     />

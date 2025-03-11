@@ -1,11 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const RestaurantCard = ({ name = 'Unknown Restaurant', address = 'Address not available' }) => {
+const RestaurantCard = ({ id, name = 'Unknown Restaurant', address = 'Address not available' }) => {
     const navigate = useNavigate();
 
     const handleReserve = () => {
-        navigate('/reservationForm');
+        navigate('/reservationForm', {
+            state: { restaurantName: name }  // Passing the restaurant name as state
+        });
     };
 
     return (
