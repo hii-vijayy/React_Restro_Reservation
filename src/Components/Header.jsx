@@ -10,13 +10,12 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
   const [city, setCity] = useState("")
   const [error, setError] = useState("")
   const [suggestions, setSuggestions] = useState([])
-  const [currentCity, setCurrentCity] = useState("your city")
+  const [currentCity, setCurrentCity] = useState("Your City")
   const navigate = useNavigate()
   const location = useLocation()
   const mapboxAccessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
 
   useEffect(() => {
-    // Check if location state contains scrollTo information
     if (location.state?.scrollTo) {
       setTimeout(() => {
         const element = document.querySelector(location.state.scrollTo)
@@ -37,7 +36,7 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
 
     try {
       const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json?access_token=${mapboxAccessToken}`,
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json?country=in&types=place&access_token=${mapboxAccessToken}`,
       )
 
       if (!response.ok) {
@@ -50,7 +49,9 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
       if (feature) {
         const latitude = feature.geometry.coordinates[1]
         const longitude = feature.geometry.coordinates[0]
-        setCurrentCity(city)
+        const cityName = feature.place_name.split(",")[0] // Extract full city name
+
+        setCurrentCity(cityName) // Display full city name
         onCoordinatesChange(latitude, longitude)
         setCity("")
         setSuggestions([])
@@ -70,7 +71,7 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
     if (value.length > 2) {
       try {
         const response = await fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${value}.json?types=place&access_token=${mapboxAccessToken}`,
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${value}.json?country=in&types=place&access_token=${mapboxAccessToken}`,
         )
 
         if (response.ok) {
@@ -90,9 +91,9 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
     setCity(suggestion)
     setSuggestions([])
 
-    // Extract just the city name from the full place name
-    const cityName = suggestion.split(",")[0]
+    const cityName = suggestion.split(",")[0] // Extract full city name
     setCurrentCity(cityName)
+    handleSearch() // Auto search when a suggestion is selected
   }
 
   const handleNavigation = (path) => {
@@ -128,56 +129,11 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
           </div>
           <div className="navbar-menu">
             <ul>
-              <li>
-                <a href="/" onClick={handleHomeClick}>
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/restaurants"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handleNavigation("/restaurants")
-                  }}
-                >
-                  Restaurants
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/restaurants"
-                  className="nav-link"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handleNavigation("/restaurants")
-                  }}
-                >
-                  Reserve Table
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contact"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handleNavigation("#contact")
-                  }}
-                >
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#aboutUs"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handleNavigation("#aboutUs")
-                  }}
-                >
-                  About
-                </a>
-              </li>
+              <li><a href="/" onClick={handleHomeClick}>Home</a></li>
+              <li><a href="/restaurants" onClick={(e) => { e.preventDefault(); handleNavigation("/restaurants") }}>Restaurants</a></li>
+              <li><a href="/restaurants" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation("/restaurants") }}>Reserve Table</a></li>
+              <li><a href="#contact" onClick={(e) => { e.preventDefault(); handleNavigation("#contact") }}>Contact</a></li>
+              <li><a href="#aboutUs" onClick={(e) => { e.preventDefault(); handleNavigation("#aboutUs") }}>About</a></li>
             </ul>
           </div>
         </div>
@@ -202,10 +158,8 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
                     ))}
                   </div>
                 )}
+                <button className="searchbtn" onClick={handleSearch}>Search</button>
               </div>
-              <button className="searchbtn" onClick={handleSearch}>
-                Search
-              </button>
             </div>
           </div>
           <div className="city-icon">
@@ -219,4 +173,3 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
 }
 
 export default Header
-

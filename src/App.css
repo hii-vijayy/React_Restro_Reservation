@@ -134,6 +134,32 @@ body {
     width: 300px;
     height: auto;
   }
+
+  /* suggestions sections*/
+
+  .suggestions-dropdown {
+    width: 100%;
+    background: rgb(225, 220, 220);
+    border: 1px solid #ffffff;
+    color: #000000;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 999; /* Higher z-index to keep it above other elements */
+    margin-top: 5px; /* Reduced margin to keep the layout intact */
+}
+
+.suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.suggestion-item:hover {
+    background: #ff6347;
+    color: rgb(0, 0, 0);
+}
   
 /* Contact Section */
 .contact-section {
