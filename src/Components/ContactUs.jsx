@@ -13,6 +13,7 @@ function Contact() {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -20,6 +21,11 @@ function Contact() {
       [name]: value,
     }));
   };
+
+   // Environment Variables
+   const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_KEY_ACCESS_TOKEN;
+   const CONTACT_TEMPLATE_ID = import.meta.env.VITE_CONTACT_TEMPLATE_ACCESS_TOKEN;
+   const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY_ACCESS_TOKEN;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,31 +35,27 @@ function Contact() {
 
     emailjs
       .send(
-        "service_7g2yp7e",
-        "template_f9nanlh",
+        SERVICE_ID,
+        CONTACT_TEMPLATE_ID,
         {
           to_name: formData.to_name,
           to_email: formData.to_email,
           subject: formData.subject,
           message: formData.message,
         },
-        "UVNys2HZbIB70VnQs"
+        PUBLIC_KEY
       )
-      .then((response) => {
+      .then(() => {
         setSuccessMessage("✅ Message sent successfully! We'll get back to you soon.");
         setFormData({ to_name: "", to_email: "", subject: "", message: "" });
 
-        setTimeout(() => {
-          setSuccessMessage(""); // Hide success message after 3 sec
-        }, 3000);
+        setTimeout(() => setSuccessMessage(""), 3000); // Hide success message after 3 sec
       })
       .catch((error) => {
         const errorMsg = getErrorMessage(error);
         setErrorMessage(`❌ ${errorMsg}`);
 
-        setTimeout(() => {
-          setErrorMessage(""); // Hide error message after 5 sec
-        }, 5000);
+        setTimeout(() => setErrorMessage(""), 5000); // Hide error message after 5 sec
       })
       .finally(() => {
         setLoading(false);
@@ -61,7 +63,7 @@ function Contact() {
   };
 
   const getErrorMessage = (error) => {
-    if (error?.response?.text) return error.response.text; // Fetch error from response
+    if (error?.response?.text) return error.response.text;
     if (error.status === 400) return "Invalid request. Please check your inputs.";
     if (error.status === 401) return "Unauthorized access. Check your EmailJS credentials.";
     if (error.status === 500) return "Server error. Please try again later.";

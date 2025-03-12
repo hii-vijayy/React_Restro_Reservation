@@ -5,41 +5,34 @@ import emailjs from 'emailjs-com';
 const ReservationForm = () => {
     const location = useLocation();
     const [restaurantName, setRestaurantName] = useState(location.state?.restaurantName || '');
+    const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const formRef = useRef(null);
 
+    const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_KEY_ACCESS_TOKEN;
+    const RESERVATION_TEMPLATE_ID = import.meta.env.VITE_RESERVATION_TEMPLATE_ACCESS_TOKEN;
+    const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY_ACCESS_TOKEN;
+
     const sendEmail = (e) => {
         e.preventDefault();
+        setLoading(true);
         setSuccessMessage('');
         setErrorMessage('');
 
         emailjs
-            .sendForm(
-                'service_7g2yp7e',  
-                'template_4hnd8w8',  
-                formRef.current,
-                'UVNys2HZbIB70VnQs'
-            )
-            .then((response) => {
+            .sendForm(SERVICE_ID, RESERVATION_TEMPLATE_ID, formRef.current, PUBLIC_KEY)
+            .then(() => {
                 setSuccessMessage('✅ Reservation request sent successfully!');
                 formRef.current.reset();
-
-                // Hide success message after 3 seconds
-                setTimeout(() => {
-                    setSuccessMessage('');
-                }, 3000);
+                setTimeout(() => setSuccessMessage(''), 3000);
             })
             .catch((error) => {
-                // Extracting error details
                 const errorDetail = error.text || 'Something went wrong. Please try again.';
                 setErrorMessage(`❌ Failed to send reservation. ${errorDetail}`);
-
-                // Hide error message after 5 seconds
-                setTimeout(() => {
-                    setErrorMessage('');
-                }, 5000);
-            });
+                setTimeout(() => setErrorMessage(''), 5000);
+            })
+            .finally(() => setLoading(false));
     };
 
     return (
@@ -81,10 +74,12 @@ const ReservationForm = () => {
                     <textarea name="message" placeholder="Any special requests?"></textarea>
                 </div>
 
-                <button type="submit" className="submit-btn">Book Table</button>
+                <button type="submit" className="submit-btn" disabled={loading}>
+                    {loading ? <span className="loader"></span> : "Book Table"}
+                </button>
 
-                {successMessage && <div className="success-message">{successMessage}</div>}
-                {errorMessage && <div className="error-message">{errorMessage}</div>}
+                {successMessage && <div className="message success-message">{successMessage}</div>}
+                {errorMessage && <div className="message error-message">{errorMessage}</div>}
             </form>
         </div>
     );
