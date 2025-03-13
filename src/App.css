@@ -765,6 +765,27 @@ body {
   background-color: #ff3b42;
 }
 
+/* Remove Safari default styles */
+input[type="date"],
+input[type="time"] {
+  appearance: none;  /* Removes default iOS Safari styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: white;  /* Ensure background matches other fields */
+  border: 1px solid #ccc;   /* Match border with other inputs */
+  padding: 10px;           /* Match input padding */
+  border-radius: 5px;      /* Match border radius */
+  font-size: 16px;         /* Match font size */
+  color: #333;            /* Ensure text is visible */
+}
+
+/* Ensure consistent width */
+input[type="date"]::-webkit-datetime-edit,
+input[type="time"]::-webkit-datetime-edit {
+  display: block;
+}
+
+
 /* Restaurant List Container */
 .restaurant-list-container {
   padding: 20px;
