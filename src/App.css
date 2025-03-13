@@ -637,13 +637,9 @@ body {
   cursor: pointer;
 }
 
-.common p {
-  margin-top: -8px;
-}
-
 .common h3,
 .common p {
-  padding: 0 15px;
+  padding: 5px 15px;
 }
 
 .popular-cities {
