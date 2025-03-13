@@ -1,18 +1,29 @@
 "use client"
-import { useNavigate } from "react-router-dom"
+
+import { useEffect } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
 import reservation from "../assets/reservation.png"
 import nearbyRestaurants from "../assets/nearby-restaurants.png"
 import delhi from "../assets/delhi.png"
 import mumbai from "../assets/mumbai.png"
 import punjab from "../assets/punjab.png"
 import jaipur from "../assets/jaipur.png"
+import Footer from "./Footer"
+import AboutUs from "./About"
+import ContactUs from "./ContactUs"
 
 function Home({ coordinates, userLocationFetched, onCoordinatesChange }) {
   const navigate = useNavigate()
+  const location = useLocation()
 
-  const handleReserveTableClick = () => {
-    navigate("/restaurants")
-  }
+  useEffect(() => {
+    if (location.state && location.state.scrollTo) {
+      const element = document.querySelector(location.state.scrollTo)
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" })
+      }
+    }
+  }, [location])
 
   const handleNearbyRestaurantsClick = () => {
     if (!userLocationFetched) {
@@ -23,7 +34,6 @@ function Home({ coordinates, userLocationFetched, onCoordinatesChange }) {
   }
 
   const handleCityClick = (cityName) => {
-    // Use the Mapbox Geocoding API to get coordinates for the city
     const mapboxAccessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
     fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${cityName}.json?access_token=${mapboxAccessToken}`)
       .then((response) => response.json())
@@ -44,13 +54,13 @@ function Home({ coordinates, userLocationFetched, onCoordinatesChange }) {
   return (
     <div className="main-body">
       <div className="top-body">
-        <div className="common" onClick={handleReserveTableClick}>
-          <img src={reservation || "/placeholder.svg"} alt="" />
+        <div className="common" onClick={() => navigate("/reservationForm")}>
+          <img src={reservation || "/placeholder.svg"} alt="Reserve Table" />
           <h3>Reserve Table</h3>
           <p>Book your table now</p>
         </div>
         <div className="common" onClick={handleNearbyRestaurantsClick}>
-          <img src={nearbyRestaurants || "/placeholder.svg"} alt="" />
+          <img src={nearbyRestaurants || "/placeholder.svg"} alt="Nearby Restaurants" />
           <h3>Nearby Restaurants</h3>
           <p>Get restaurants around you</p>
         </div>
@@ -60,19 +70,19 @@ function Home({ coordinates, userLocationFetched, onCoordinatesChange }) {
         <h1>Popular Cities</h1>
         <div className="cities">
           <div className="mumbai" onClick={() => handleCityClick("Mumbai")}>
-            <img src={mumbai || "/placeholder.svg"} alt="" />
+            <img src={mumbai || "/placeholder.svg"} alt="Mumbai" />
             <h3>Mumbai</h3>
           </div>
           <div className="jaipur" onClick={() => handleCityClick("Jaipur")}>
-            <img src={jaipur || "/placeholder.svg"} alt="" />
+            <img src={jaipur || "/placeholder.svg"} alt="Jaipur" />
             <h3>Jaipur</h3>
           </div>
           <div className="delhi" onClick={() => handleCityClick("Delhi")}>
-            <img src={delhi || "/placeholder.svg"} alt="" />
+            <img src={delhi || "/placeholder.svg"} alt="Delhi" />
             <h3>Delhi</h3>
           </div>
           <div className="punjab" onClick={() => handleCityClick("Punjab")}>
-            <img src={punjab || "/placeholder.svg"} alt="" />
+            <img src={punjab || "/placeholder.svg"} alt="Punjab" />
             <h3>Punjab</h3>
           </div>
         </div>
@@ -82,4 +92,3 @@ function Home({ coordinates, userLocationFetched, onCoordinatesChange }) {
 }
 
 export default Home
-
