@@ -773,7 +773,6 @@ input[type="time"] {
   -moz-appearance: none;
   background-color: white;  /* Ensure background matches other fields */
   border: 1px solid #ccc;   /* Match border with other inputs */
-  padding: 12px !important;           /* Match input padding */
   border-radius: 5px;      /* Match border radius */
   font-size: 16px;         /* Match font size */
   color: #333;            /* Ensure text is visible */
@@ -783,6 +782,7 @@ input[type="time"] {
 input[type="date"]::-webkit-datetime-edit,
 input[type="time"]::-webkit-datetime-edit {
   display: block;
+  padding: 12px;           /* Match input padding */
 }
 
 
