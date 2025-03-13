@@ -1,17 +1,11 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { qrcode } from 'vite-plugin-qrcode'; // Correct import
 
 export default defineConfig({
-    plugins: [react()],
+    plugins: [react(), qrcode()],
     server: {
-      proxy: {
-          '/api': {
-              target: 'https://sandbox-login.uber.com',
-              changeOrigin: true,
-              secure: false,
-              rewrite: (path) => path.replace(/^\/api/, ''),
-          },
-      },
-  },
-  
+        host: true,  // Enables access from mobile devices
+        port: 5173,  // Default Vite port
+    },
 });
