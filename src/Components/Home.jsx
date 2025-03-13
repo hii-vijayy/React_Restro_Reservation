@@ -33,6 +33,23 @@ function Home({ coordinates, userLocationFetched, onCoordinatesChange }) {
     }
   }
 
+  const handleNavigation = (path) => {
+    if (path === "/restaurants" && !userLocationFetched) {
+      alert("Please enter a city or allow location access to view restaurants.")
+    } else if (path === "#contact" || path === "#aboutUs") {
+      if (location.pathname !== "/") {
+        navigate("/", { state: { scrollTo: path } })
+      } else {
+        const element = document.querySelector(path)
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" })
+        }
+      }
+    } else {
+      navigate(path)
+    }
+  }
+
   const handleCityClick = (cityName) => {
     const mapboxAccessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
     fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${cityName}.json?access_token=${mapboxAccessToken}`)
@@ -41,6 +58,7 @@ function Home({ coordinates, userLocationFetched, onCoordinatesChange }) {
         if (data.features && data.features.length > 0) {
           const [longitude, latitude] = data.features[0].center
           onCoordinatesChange(latitude, longitude)
+          navigate("/restaurants") // Navigate to restaurants page after selecting city
         } else {
           alert("City not found. Please try again.")
         }
@@ -54,11 +72,14 @@ function Home({ coordinates, userLocationFetched, onCoordinatesChange }) {
   return (
     <div className="main-body">
       <div className="top-body">
-        <div className="common" onClick={() => navigate("/reservationForm")}>
+        {/* Reserve Table Button - Now Working */}
+        <div className="common" onClick={() => navigate("/restaurants")}>
           <img src={reservation || "/placeholder.svg"} alt="Reserve Table" />
           <h3>Reserve Table</h3>
           <p>Book your table now</p>
         </div>
+
+        {/* Nearby Restaurants */}
         <div className="common" onClick={handleNearbyRestaurantsClick}>
           <img src={nearbyRestaurants || "/placeholder.svg"} alt="Nearby Restaurants" />
           <h3>Nearby Restaurants</h3>
