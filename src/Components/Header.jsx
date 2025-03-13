@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import websiteLogo from "../assets/logo.png";
-import cityIcon from "../assets/city-map.png"
+import cityIcon from "../assets/city-map.png";
 import "../App.css";
 
 function Header({ onCoordinatesChange, userLocationFetched }) {
@@ -30,32 +30,45 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
   };
 
   const handleHomeClick = (e) => {
-    e.preventDefault()
-    window.location.href = "/" // Refresh page and navigate to home
-  }
+    e.preventDefault();
+    window.location.href = "/"; // Refresh page and navigate to home
+  };
+
   const handleCityChange = async (e) => {
-    const value = e.target.value
-    setCity(value)
+    const value = e.target.value;
+    setCity(value);
 
     if (value.length > 2) {
       try {
         const response = await fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${value}.json?country=in&types=place&access_token=${mapboxAccessToken}`,
-        )
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${value}.json?country=in&types=place&access_token=${mapboxAccessToken}`
+        );
 
         if (response.ok) {
-          const data = await response.json()
-          const cityResults = data.features.map((feature) => feature.place_name)
-          setSuggestions(cityResults.slice(0, 5))
+          const data = await response.json();
+          const cityResults = data.features.map((feature) => ({
+            name: feature.place_name, // Full location name
+            coordinates: feature.geometry.coordinates,
+          }));
+          setSuggestions(cityResults.slice(0, 5));
         }
       } catch (err) {
-        console.error("Error fetching suggestions:", err)
+        console.error("Error fetching suggestions:", err);
       }
     } else {
-      setSuggestions([])
+      setSuggestions([]);
     }
-  }
-  
+  };
+
+  const selectSuggestion = (selectedLocation) => {
+    setCity(""); // Clear input
+    setSuggestions([]); // Hide suggestions
+    setCurrentCity(selectedLocation.name); // Update city name
+
+    // Extract latitude and longitude
+    const [longitude, latitude] = selectedLocation.coordinates;
+    onCoordinatesChange(latitude, longitude);
+  };
 
   const handleSearch = async () => {
     if (!city.trim()) {
@@ -79,7 +92,7 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
       if (feature) {
         const latitude = feature.geometry.coordinates[1];
         const longitude = feature.geometry.coordinates[0];
-        const cityName = feature.place_name.split(",")[0];
+        const cityName = feature.place_name; // Full location name
 
         setCurrentCity(cityName);
         onCoordinatesChange(latitude, longitude);
@@ -94,24 +107,6 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
     }
   };
 
-  const handleNavigation = (path) => {
-    setIsSidebarOpen(false);
-    if (path === "/restaurants" && !userLocationFetched) {
-      alert("Please enter a city or allow location access to view restaurants.");
-    } else if (path === "#contact" || path === "#aboutUs") {
-      if (location.pathname !== "/") {
-        navigate("/", { state: { scrollTo: path } });
-      } else {
-        const element = document.querySelector(path);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }
-    } else {
-      navigate(path);
-    }
-  };
-
   return (
     <div className="navbar-head">
       <div className="navbar">
@@ -121,7 +116,7 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
               <img src={websiteLogo || "/placeholder.svg"} alt="logo" className="logo" />
             </a>
           </div>
-              <button className="menu-toggle" onClick={toggleSidebar}>☰</button>
+          <button className="menu-toggle" onClick={toggleSidebar}>☰</button>
           <div className="navbar-menu">
             <ul>
               <li><a href="/" onClick={handleHomeClick}>Home</a></li>
@@ -132,28 +127,26 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
             </ul>
           </div>
         </div>
-        {/* Mobile Menu Overlay */}
-      <div className={`mobile-menu-overlay ${isSidebarOpen ? "active" : ""}`} onClick={toggleSidebar}></div>
-      
 
-{/* Sidebar Menu */}
-<div className={`mobile-menu-sidebar ${isSidebarOpen ? "active" : ""}`}>
-  <div className="mobile-menu-header">
-  <a href="/" onClick={handleHomeClick}>
-    <img src={websiteLogo} alt="logo" className="mobile-menu-logo" />
-    </a>
-    <button className="mobile-menu-close" onClick={toggleSidebar}>×</button>
-  </div>
-  <div className="mobile-menu-items">
-    <ul>
-      <li><a href="/" onClick={(e) => { e.preventDefault(); handleNavigation("/"); }}>Home</a></li>
-      <li><a href="/restaurants" onClick={(e) => { e.preventDefault(); handleNavigation("/restaurants"); }}>Restaurants</a></li>
-      <li><a href="/restaurants" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation("/restaurants") }}>Reserve Table</a></li>
-      <li><a href="#contact" onClick={(e) => { e.preventDefault(); handleNavigation("#contact"); }}>Contact</a></li>
-      <li><a href="#aboutUs" onClick={(e) => { e.preventDefault(); handleNavigation("#aboutUs"); }}>About</a></li>
-    </ul>
-  </div>
-</div>
+        {/* Sidebar */}
+        <div className={`mobile-menu-sidebar ${isSidebarOpen ? "active" : ""}`}>
+          <div className="mobile-menu-header">
+            <a href="/" onClick={handleHomeClick}>
+              <img src={websiteLogo} alt="logo" className="mobile-menu-logo" />
+            </a>
+            <button className="mobile-menu-close" onClick={toggleSidebar}>×</button>
+          </div>
+          <div className="mobile-menu-items">
+            <ul>
+              <li><a href="/" onClick={(e) => { e.preventDefault(); handleNavigation("/"); }}>Home</a></li>
+              <li><a href="/restaurants" onClick={(e) => { e.preventDefault(); handleNavigation("/restaurants"); }}>Restaurants</a></li>
+              <li><a href="/restaurants" className="nav-link" onClick={(e) => { e.preventDefault(); handleNavigation("/restaurants") }}>Reserve Table</a></li>
+              <li><a href="#contact" onClick={(e) => { e.preventDefault(); handleNavigation("#contact"); }}>Contact</a></li>
+              <li><a href="#aboutUs" onClick={(e) => { e.preventDefault(); handleNavigation("#aboutUs"); }}>About</a></li>
+            </ul>
+          </div>
+        </div>
+
         <div className="search">
           <div className="navbar-heading">
             <h1 className="search-heading">Discover the best restaurants in {currentCity}</h1>
@@ -169,8 +162,12 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
                 {suggestions.length > 0 && (
                   <div className="suggestions-dropdown">
                     {suggestions.map((suggestion, index) => (
-                      <div key={index} className="suggestion-item" onClick={() => selectSuggestion(suggestion)}>
-                        {suggestion}
+                      <div
+                        key={index}
+                        className="suggestion-item"
+                        onClick={() => selectSuggestion(suggestion)}
+                      >
+                        {suggestion.name}
                       </div>
                     ))}
                   </div>
@@ -186,7 +183,7 @@ function Header({ onCoordinatesChange, userLocationFetched }) {
       </div>
       {error && <p className="error">{error}</p>}
     </div>
-  )
+  );
 }
 
 export default Header;

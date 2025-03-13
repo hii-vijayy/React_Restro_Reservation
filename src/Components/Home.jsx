@@ -8,9 +8,6 @@ import delhi from "../assets/delhi.png"
 import mumbai from "../assets/mumbai.png"
 import punjab from "../assets/punjab.png"
 import jaipur from "../assets/jaipur.png"
-import Footer from "./Footer"
-import AboutUs from "./About"
-import ContactUs from "./ContactUs"
 
 function Home({ coordinates, userLocationFetched, onCoordinatesChange }) {
   const navigate = useNavigate()

@@ -989,16 +989,35 @@ body {
     font-size: 24px;
   }
 
-  .search-box {
+  .search-box-container {
+    display: flex;
     width: 100%;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .search-box {
+    flex: 7; /* 70% width */
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .searchbtn {
+    flex: 3; /* 30% width */
+    padding: 10px;
+    font-size: 16px;
+    text-align: center;
   }
 
   .suggestions-dropdown {
     width: 100%;
+    top: 50px;
   }
 
   .clear-search {
-    right: 70px;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .top-body {
@@ -1016,6 +1035,7 @@ body {
   }
 
   .cities {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
@@ -1042,32 +1062,6 @@ body {
     margin-bottom: 30px;
   }
 
-  .search-box-container {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 15px;
-  }
-
-  .search-box {
-    width: 100%;
-    padding-right: 40px;
-  }
-
-  .searchbtn {
-    width: 100%;
-  }
-
-  .clear-search {
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .suggestions-dropdown {
-    width: 100%;
-    top: 50px;
-  }
-
   /* Adjust card text spacing */
   .common h3 {
     font-size: 1.5rem;
@@ -1081,6 +1075,7 @@ body {
     padding: 0 10px;
   }
 }
+
 
 /* Responsive Design - Extra Small Screens */
 @media (max-width: 480px) {
