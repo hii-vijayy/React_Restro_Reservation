@@ -80,9 +80,22 @@ body {
   color: #f7f1e3;
   font-size: 24px;
   cursor: pointer;
+  padding: 8px;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Mobile Menu Sidebar */
+@media screen and (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  /* Ensure the menu is visible on mobile */
+  .navbar-menu {
+    display: none;
+  }
+}
+
+/* Mobile Menu Sidebar - Fixed for iOS */
 .mobile-menu-overlay {
   display: none;
   position: fixed;
@@ -92,6 +105,7 @@ body {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-menu-sidebar {
@@ -106,12 +120,19 @@ body {
   overflow-y: auto;
   padding: 20px 0;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
 }
 
 .mobile-menu-sidebar.active {
   left: 0;
+  transform: translateZ(0); /* Force hardware acceleration */
 }
 
+.mobile-menu-overlay.active {
+  display: block;
+}
+
+/* Mobile Menu Header */
 .mobile-menu-header {
   display: flex;
   justify-content: space-between;
@@ -126,12 +147,15 @@ body {
   color: #f7f1e3;
   font-size: 24px;
   cursor: pointer;
+  padding: 8px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-menu-logo {
   width: 100px;
 }
 
+/* Mobile Menu Items */
 .mobile-menu-items {
   padding: 20px;
 }
@@ -153,20 +177,11 @@ body {
   display: block;
   padding: 10px 0;
   transition: color 0.3s;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-menu-items ul li a:hover {
   color: #f39c12;
-}
-
-.mobile-menu-overlay.active {
-  display: block;
-}
-
-@media screen and (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
 }
 
 /* Search Section */
@@ -184,7 +199,7 @@ body {
   position: relative;
   width: 100%;
   display: flex;
-  /* align-items: center; */
+  align-items: center;
   gap: 15px; /* Ensures consistent spacing */
 }
 
@@ -591,197 +606,6 @@ body {
   border-top: 1px solid #555;
 }
 
-
-
-/* Main Body and Popular Cities */
-.main-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-  margin-top: 90px;
-  max-width: 1275px;
-  margin: 70px auto;
-  padding: 0 20px;
-}
-
-.top-body {
-  display: flex;
-  gap: 30px;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.top-body img {
-  width: 500px;
-  height: 300px;
-  object-fit: cover;
-}
-
-.common {
-  border: 1px solid #f7f1e3;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.1s ease-in-out;
-  color: #554e43;
-  flex: 1;
-}
-
-.common:hover {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  transform: scale(1.02);
-  cursor: pointer;
-}
-
-.common h3,
-.common p {
-  padding: 5px 15px;
-}
-
-.popular-cities {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 70px;
-  color: #554e43;
-  width: 100%;
-}
-
-.popular-cities img {
-  width: 250px;
-  height: 300px;
-  object-fit: cover;
-}
-
-.cities {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 0 20px 20px 20px;
-}
-
-.popular-cities h1 {
-  font-size: 2.5rem;
-  padding: 0 20px;
-}
-
-.mumbai,
-.jaipur,
-.delhi,
-.punjab {
-  border: 1px solid #f7f1e3;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
-}
-
-.mumbai:hover,
-.jaipur:hover,
-.delhi:hover,
-.punjab:hover {
-  cursor: pointer;
-  border: 1px solid #ded0bb;
-}
-
-.cities h3 {
-  text-align: center;
-}
-
-/* Reservation Form */
-.reservation-form-container {
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 40px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.reservation-form-container h2 {
-  text-align: center;
-  margin-bottom: 25px;
-  color: #333;
-  font-size: 26px;
-  font-weight: bold;
-}
-
-.reservation-form-container .form-group {
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.reservation-form-container label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: #555;
-}
-
-.reservation-form-container input,
-.reservation-form-container textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 16px;
-  transition: border-color 0.3s;
-}
-
-.reservation-form-container input:focus,
-.reservation-form-container textarea:focus {
-  border-color: #ff5a5f;
-  outline: none;
-  box-shadow: 0 0 5px rgba(255, 90, 95, 0.5);
-}
-
-.reservation-form-container textarea {
-  height: 120px;
-  resize: none;
-}
-
-.reservation-form-container .submit-btn {
-  width: 100%;
-  padding: 12px;
-  background-color: #ff5a5f;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.reservation-form-container .submit-btn:hover {
-  background-color: #ff3b42;
-}
-
-/* Remove Safari default styles */
-input[type="date"],
-input[type="time"] {
-  appearance: none;  /* Removes default iOS Safari styling */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: white;  /* Ensure background matches other fields */
-  border: 1px solid #ccc;   /* Match border with other inputs */
-  border-radius: 5px;      /* Match border radius */
-  font-size: 16px;         /* Match font size */
-  color: #333;            /* Ensure text is visible */
-}
-
-/* Ensure consistent width */
-input[type="date"]::-webkit-datetime-edit,
-input[type="time"]::-webkit-datetime-edit {
-  display: block;
-  padding: 12px;           /* Match input padding */
-}
-
-
 /* Restaurant List Container */
 .restaurant-list-container {
   padding: 20px;
@@ -906,6 +730,255 @@ input[type="time"]::-webkit-datetime-edit {
   color: #ff3b42;
 }
 
+/* Main Body and Popular Cities */
+.main-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 90px;
+  max-width: 1275px;
+  margin: 70px auto;
+  padding: 0 20px;
+}
+
+.top-body {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.top-body img {
+  width: 500px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.common {
+  border: 1px solid #f7f1e3;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.1s ease-in-out;
+  color: #554e43;
+  flex: 1;
+}
+
+.common:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+.common p {
+  margin-top: -8px;
+}
+
+.common h3,
+.common p {
+  padding: 0 15px;
+}
+
+.popular-cities {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 70px;
+  color: #554e43;
+  width: 100%;
+}
+
+.popular-cities img {
+  width: 250px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.cities {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 0 20px 20px 20px;
+}
+
+.popular-cities h1 {
+  font-size: 2.5rem;
+  padding: 0 20px;
+}
+
+.mumbai,
+.jaipur,
+.delhi,
+.punjab {
+  border: 1px solid #f7f1e3;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.mumbai:hover,
+.jaipur:hover,
+.delhi:hover,
+.punjab:hover {
+  cursor: pointer;
+  border: 1px solid #ded0bb;
+}
+
+.cities h3 {
+  text-align: center;
+}
+
+/* Reservation Form */
+.reservation-form-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 40px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-form-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.reservation-form-container .form-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.reservation-form-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+.reservation-form-container input,
+.reservation-form-container textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.reservation-form-container input:focus,
+.reservation-form-container textarea:focus {
+  border-color: #ff5a5f;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 90, 95, 0.5);
+}
+
+.reservation-form-container textarea {
+  height: 120px;
+  resize: none;
+}
+
+.reservation-form-container .submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #ff5a5f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.reservation-form-container .submit-btn:hover {
+  background-color: #ff3b42;
+}
+
+/* Restaurant List Container */
+.restaurant-list-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.restaurant-list-container h2 {
+  font-size: 28px;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.reserve-button {
+  background-color: #ff5a5f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.reserve-button:hover {
+  background-color: #ff3b42;
+}
+
+.loading,
+.error,
+.no-results {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+}
+
+.error {
+  color: #ff3b42;
+}
+
+/* Load More Button */
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.load-more-btn {
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.load-more-btn:hover {
+  background-color: #d35400;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* Responsive Design - Large Screens */
 @media (max-width: 1200px) {
   .search {
@@ -1006,35 +1079,16 @@ input[type="time"]::-webkit-datetime-edit {
     font-size: 24px;
   }
 
-  .search-box-container {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    gap: 10px;
-  }
-
   .search-box {
-    flex: 7; /* 70% width */
-    padding: 10px;
-    font-size: 16px;
-  }
-
-  .searchbtn {
-    flex: 3; /* 30% width */
-    padding: 10px;
-    font-size: 16px;
-    text-align: center;
+    width: 100%;
   }
 
   .suggestions-dropdown {
     width: 100%;
-    top: 50px;
   }
 
   .clear-search {
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 70px;
   }
 
   .top-body {
@@ -1052,7 +1106,6 @@ input[type="time"]::-webkit-datetime-edit {
   }
 
   .cities {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
@@ -1079,6 +1132,32 @@ input[type="time"]::-webkit-datetime-edit {
     margin-bottom: 30px;
   }
 
+  .search-box-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .search-box {
+    width: 100%;
+    padding-right: 40px;
+  }
+
+  .searchbtn {
+    width: 100%;
+  }
+
+  .clear-search {
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .suggestions-dropdown {
+    width: 100%;
+    top: 50px;
+  }
+
   /* Adjust card text spacing */
   .common h3 {
     font-size: 1.5rem;
@@ -1092,7 +1171,6 @@ input[type="time"]::-webkit-datetime-edit {
     padding: 0 10px;
   }
 }
-
 
 /* Responsive Design - Extra Small Screens */
 @media (max-width: 480px) {
