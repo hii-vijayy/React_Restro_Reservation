@@ -24,10 +24,17 @@ function App() {
                     setUserLocationFetched(true);
                 },
                 (error) => {
-                    console.error("Error fetching user location:", error);
-                    setUserLocationFetched(false);
-                }
+                    console.warn("Geolocation failed or was denied. Using fallback location (New Delhi).", error.message);
+                    // Fallback to New Delhi coordinates
+                    setCoordinates({
+                        latitude: 28.6139,
+                        longitude: 77.2090
+                    });
+                    setUserLocationFetched(true);
+                },
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
             );
+
         } else {
             console.log("Geolocation is not supported by this browser.");
             setUserLocationFetched(false);

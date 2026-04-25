@@ -1,153 +1,156 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
-import websiteLogo from "../assets/logo.png"
-import cityIcon from "../assets/city-map.png"
-import "../App.css"
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import websiteLogo from "../assets/logo.png";
+import cityIcon from "../assets/city-map.png";
+import "../App.css";
 
 function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
-  const [city, setCity] = useState("")
-  const [error, setError] = useState("")
-  const [menuOpen, setMenuOpen] = useState(false)
-  const navigate = useNavigate()
-  const location = useLocation()
-  const mapboxAccessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN
-  const [suggestions, setSuggestions] = useState([])
-  const [currentCity, setCurrentCity] = useState("Your City")
+  const [city, setCity] = useState("");
+  const [error, setError] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [suggestions, setSuggestions] = useState([]);
+  const [currentCity, setCurrentCity] = useState("Your City");
+
+  const mapboxAccessToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN;
 
   useEffect(() => {
     if (location.state?.scrollTo) {
       setTimeout(() => {
-        const element = document.querySelector(location.state.scrollTo)
+        const element = document.querySelector(location.state.scrollTo);
         if (element) {
-          element.scrollIntoView({ behavior: "smooth" })
+          element.scrollIntoView({ behavior: "smooth" });
         }
-      }, 100)
+      }, 100);
     }
-  }, [location.state])
+  }, [location.state]);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (menuOpen) {
-      document.body.style.overflow = "hidden"
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"
+      document.body.style.overflow = "auto";
     }
 
     return () => {
-      document.body.style.overflow = "auto"
-    }
-  }, [menuOpen])
+      document.body.style.overflow = "auto";
+    };
+  }, [menuOpen]);
 
   const handleSearch = async () => {
     if (!city.trim()) {
-      setError("Please enter a valid city name.")
-      return
+      setError("Please enter a valid city name.");
+      return;
     }
 
-    setError("")
+    setError("");
 
     try {
       const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json?country=in&types=place&access_token=${mapboxAccessToken}`,
-      )
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json?country=in&types=place&access_token=${mapboxAccessToken}`
+      );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch coordinates for the city.")
+        throw new Error("Failed to fetch coordinates for the city.");
       }
 
-      const data = await response.json()
-      const feature = data.features[0]
+      const data = await response.json();
+      const feature = data.features[0];
       if (feature) {
-        const latitude = feature.geometry.coordinates[1]
-        const longitude = feature.geometry.coordinates[0]
-        const cityName = feature.place_name
+        const latitude = feature.geometry.coordinates[1];
+        const longitude = feature.geometry.coordinates[0];
+        const cityName = feature.place_name;
 
-        setCurrentCity(cityName)
-        onCoordinatesChange(latitude, longitude)
-        setCity("")
-        setSuggestions([])
+        setCurrentCity(cityName);
+        onCoordinatesChange(latitude, longitude);
+        setCity("");
+        setSuggestions([]);
       } else {
-        setError("No results found for the specified city.")
+        setError("No results found for the specified city.");
       }
     } catch (err) {
-      setError("Error fetching city coordinates. Please try again.")
-      console.error(err)
+      setError("Error fetching city coordinates. Please try again.");
+      console.error(err);
     }
-  }
+  };
 
   const handleCityChange = async (e) => {
-    const value = e.target.value
-    setCity(value)
+    const value = e.target.value;
+    setCity(value);
 
     if (value.length > 2) {
       try {
         const response = await fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${value}.json?country=in&types=place&access_token=${mapboxAccessToken}`,
-        )
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${value}.json?country=in&types=place&access_token=${mapboxAccessToken}`
+        );
 
         if (response.ok) {
-          const data = await response.json()
+          const data = await response.json();
           const cityResults = data.features.map((feature) => ({
             name: feature.place_name,
             coordinates: feature.geometry.coordinates,
-          }))
-          setSuggestions(cityResults.slice(0, 5))
+          }));
+          setSuggestions(cityResults.slice(0, 5));
         }
       } catch (err) {
-        console.error("Error fetching suggestions:", err)
+        console.error("Error fetching suggestions:", err);
       }
     } else {
-      setSuggestions([])
+      setSuggestions([]);
     }
-  }
+  };
 
   const selectSuggestion = (selectedLocation) => {
-    setCity("")
-    setSuggestions([])
-    setCurrentCity(selectedLocation.name)
+    setCity("");
+    setSuggestions([]);
+    setCurrentCity(selectedLocation.name);
 
-    const [longitude, latitude] = selectedLocation.coordinates
-    onCoordinatesChange(latitude, longitude)
-  }
+    const [longitude, latitude] = selectedLocation.coordinates;
+    onCoordinatesChange(latitude, longitude);
+  };
 
   const clearSearch = () => {
-    setCity("")
-    setSuggestions([])
-  }
+    setCity("");
+    setSuggestions([]);
+  };
 
   const handleNavigation = (path) => {
-    setMenuOpen(false)
+    setMenuOpen(false);
     if (path === "/restaurants" && !userLocationFetched) {
-      alert("Please enter a city or allow location access to view restaurants.")
+      alert(
+        "Please enter a city or allow location access to view restaurants."
+      );
     } else if (path === "#contact" || path === "#aboutUs") {
       if (location.pathname !== "/") {
-        navigate("/", { state: { scrollTo: path } })
+        navigate("/", { state: { scrollTo: path } });
       } else {
-        const element = document.querySelector(path)
+        const element = document.querySelector(path);
         if (element) {
-          element.scrollIntoView({ behavior: "smooth" })
+          element.scrollIntoView({ behavior: "smooth" });
         }
       }
     } else {
-      navigate(path)
+      navigate(path);
     }
-  }
+  };
 
   const handleHomeClick = (e) => {
-    e.preventDefault()
-    setCity("")
-    setCurrentCity("Your City")
-    setSuggestions([])
-    if (resetLocation) resetLocation()
-    setMenuOpen(false)
-    window.location.href = "/" // Force page refresh
-  }
+    e.preventDefault();
+    setCity("");
+    setCurrentCity("Your City");
+    setSuggestions([]);
+    if (resetLocation) resetLocation();
+    setMenuOpen(false);
+    window.location.href = "/"; // Force page refresh
+  };
 
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen)
-  }
+    setMenuOpen(!menuOpen);
+  };
 
   return (
     <div className="navbar-head">
@@ -155,7 +158,11 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
         <div className="navbar-top">
           <div className="navbar-logo">
             <a href="/" onClick={handleHomeClick}>
-              <img src={websiteLogo || "/placeholder.svg"} alt="logo" className="logo" />
+              <img
+                src={websiteLogo || "/placeholder.svg"}
+                alt="logo"
+                className="logo"
+              />
             </a>
           </div>
           <button className="menu-toggle" onClick={toggleMenu}>
@@ -172,8 +179,8 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
                 <a
                   href="/restaurants"
                   onClick={(e) => {
-                    e.preventDefault()
-                    handleNavigation("/restaurants")
+                    e.preventDefault();
+                    handleNavigation("/restaurants");
                   }}
                 >
                   Restaurants
@@ -183,8 +190,8 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
                 <a
                   href="/restaurants"
                   onClick={(e) => {
-                    e.preventDefault()
-                    handleNavigation("/restaurants")
+                    e.preventDefault();
+                    handleNavigation("/restaurants");
                   }}
                 >
                   Reserve Table
@@ -194,8 +201,8 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
                 <a
                   href="#contact"
                   onClick={(e) => {
-                    e.preventDefault()
-                    handleNavigation("#contact")
+                    e.preventDefault();
+                    handleNavigation("#contact");
                   }}
                 >
                   Contact
@@ -205,8 +212,8 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
                 <a
                   href="#aboutUs"
                   onClick={(e) => {
-                    e.preventDefault()
-                    handleNavigation("#aboutUs")
+                    e.preventDefault();
+                    handleNavigation("#aboutUs");
                   }}
                 >
                   About
@@ -218,7 +225,8 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
         <div className="search">
           <div className="navbar-heading">
             <h1 className="search-heading">
-              Discover the best restaurants in <span className="city-name">{currentCity}</span>
+              Discover the best restaurants in{" "}
+              <span className="city-name">{currentCity}</span>
             </h1>
             <div className="search-bar">
               <div className="search-container">
@@ -242,7 +250,11 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
                 {suggestions.length > 0 && (
                   <div className="suggestions-dropdown">
                     {suggestions.map((suggestion, index) => (
-                      <div key={index} className="suggestion-item" onClick={() => selectSuggestion(suggestion)}>
+                      <div
+                        key={index}
+                        className="suggestion-item"
+                        onClick={() => selectSuggestion(suggestion)}
+                      >
                         {suggestion.name}
                       </div>
                     ))}
@@ -259,13 +271,23 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
       {error && <p className="error">{error}</p>}
 
       {/* Mobile Menu Overlay - This was missing */}
-      <div className={`mobile-menu-overlay ${menuOpen ? "active" : ""}`} onClick={() => setMenuOpen(false)}></div>
+      <div
+        className={`mobile-menu-overlay ${menuOpen ? "active" : ""}`}
+        onClick={() => setMenuOpen(false)}
+      ></div>
 
       {/* Mobile Menu Sidebar */}
       <div className={`mobile-menu-sidebar ${menuOpen ? "active" : ""}`}>
         <div className="mobile-menu-header">
-          <img src={websiteLogo || "/placeholder.svg"} alt="logo" className="mobile-menu-logo" />
-          <button className="mobile-menu-close" onClick={() => setMenuOpen(false)}>
+          <img
+            src={websiteLogo || "/placeholder.svg"}
+            alt="logo"
+            className="mobile-menu-logo"
+          />
+          <button
+            className="mobile-menu-close"
+            onClick={() => setMenuOpen(false)}
+          >
             ×
           </button>
         </div>
@@ -280,8 +302,8 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
               <a
                 href="/restaurants"
                 onClick={(e) => {
-                  e.preventDefault()
-                  handleNavigation("/restaurants")
+                  e.preventDefault();
+                  handleNavigation("/restaurants");
                 }}
               >
                 Restaurants
@@ -291,8 +313,8 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
               <a
                 href="/restaurants"
                 onClick={(e) => {
-                  e.preventDefault()
-                  handleNavigation("/restaurants")
+                  e.preventDefault();
+                  handleNavigation("/restaurants");
                 }}
               >
                 Reserve Table
@@ -302,8 +324,8 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
               <a
                 href="#contact"
                 onClick={(e) => {
-                  e.preventDefault()
-                  handleNavigation("#contact")
+                  e.preventDefault();
+                  handleNavigation("#contact");
                 }}
               >
                 Contact
@@ -313,8 +335,8 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
               <a
                 href="#aboutUs"
                 onClick={(e) => {
-                  e.preventDefault()
-                  handleNavigation("#aboutUs")
+                  e.preventDefault();
+                  handleNavigation("#aboutUs");
                 }}
               >
                 About
@@ -324,8 +346,7 @@ function Header({ onCoordinatesChange, userLocationFetched, resetLocation }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Header
-
+export default Header;
